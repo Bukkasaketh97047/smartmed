@@ -1,4 +1,3 @@
-```
 import React, { useState } from 'react';
 import { loginUser } from '../services/api';
 import { useAuth } from '../context/AuthContext';
