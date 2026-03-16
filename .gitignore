@@ -1,0 +1,68 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build and IDE
+target/
+dist/
+.idea/
+.vscode/
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build and IDE
+target/
+dist/
+.idea/
+.vscode/
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Backend Data/Uploads
+backend/uploads/
+backend/*.png
+backend/*.jpg
+sample_prescription_*
+
+# Java/IDE Specific
+.classpath
+.project
+.settings/
+.factorypath
+bin/
+*.class
+*.log
+*.txt
+feature_push_output.txt
+push_output.txt
+test_push_output.txt
+minimal_push_output.txt
+backend_logs.txt
