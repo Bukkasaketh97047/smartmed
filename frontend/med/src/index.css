@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
 :root {
   --primary: #00C896;
   --primary-dark: #00A87E;
@@ -37,8 +39,6 @@
   background-size: 200% 100%;
   animation: shimmer 2s infinite linear;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 * {
   box-sizing: border-box;

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8080/api";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://smartmed-1-kd42.onrender.com/api";
 
 const api = axios.create({
   baseURL: BASE_URL,

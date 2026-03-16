@@ -1,10 +1,11 @@
+```
 import React, { useState } from 'react';
 import { loginUser } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 
-const GOOGLE_AUTH_URL = import.meta.env.VITE_BACKEND_URL
-  ? `${import.meta.env.VITE_BACKEND_URL}/oauth2/authorization/google`
+const GOOGLE_AUTH_URL = import.meta.env.PROD 
+  ? 'https://smartmed-1-kd42.onrender.com/oauth2/authorization/google'
   : 'http://localhost:8080/oauth2/authorization/google';
 
 function SignIn() {

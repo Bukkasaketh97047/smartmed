@@ -71,7 +71,7 @@ function AIPharmacyScanner() {
 
             if (medNames.length > 1) {
                 try {
-                    const interactionRes = await axios.post('http://localhost:8080/api/prescription/check-interactions', medNames);
+                    const interactionRes = await axios.post(`${import.meta.env.VITE_API_URL || 'https://smartmed-1-kd42.onrender.com'}/api/prescription/check-interactions`, medNames);
                     setInteractions(interactionRes.data || []);
                 } catch {
                     // Interaction check is optional, don't fail
@@ -80,7 +80,7 @@ function AIPharmacyScanner() {
 
             // Step 4: Generate Bill
             if (validMedicines.length > 0) {
-                const billRes = await axios.post('http://localhost:8080/api/bill/generate', validMedicines);
+                const billRes = await axios.post(`${import.meta.env.VITE_API_URL || 'https://smartmed-1-kd42.onrender.com'}/api/bill/generate`, validMedicines);
                 setBill(billRes.data);
             } else {
                 setBill(null);
