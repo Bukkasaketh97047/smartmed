@@ -44,12 +44,12 @@ function AIPharmacyScanner() {
             formData.append('file', file);
             formData.append('username', user.username);
 
-            const uploadRes = await axios.post('http://localhost:8080/api/prescription/upload', formData, {
+            const uploadRes = await axios.post('https://smartmed-2-qlz8.onrender.com/api/prescription/upload', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
             // Step 2: Scan
-            const scanRes = await axios.post(`http://localhost:8080/api/prescription/scan/${uploadRes.data.id}`);
+            const scanRes = await axios.post(`https://smartmed-2-qlz8.onrender.com/api/prescription/scan/${uploadRes.data.id}`);
             console.log("Raw Scan Response:", scanRes.data);
 
             let parsedData;
@@ -71,7 +71,7 @@ function AIPharmacyScanner() {
 
             if (medNames.length > 1) {
                 try {
-                    const interactionRes = await axios.post(`${import.meta.env.VITE_API_URL || 'https://smartmed-1-kd42.onrender.com'}/api/prescription/check-interactions`, medNames);
+                    const interactionRes = await axios.post(`${import.meta.env.VITE_API_URL || 'https://smartmed-2-qlz8.onrender.com'}/api/prescription/check-interactions`, medNames);
                     setInteractions(interactionRes.data || []);
                 } catch {
                     // Interaction check is optional, don't fail
@@ -80,7 +80,7 @@ function AIPharmacyScanner() {
 
             // Step 4: Generate Bill
             if (validMedicines.length > 0) {
-                const billRes = await axios.post(`${import.meta.env.VITE_API_URL || 'https://smartmed-1-kd42.onrender.com'}/api/bill/generate`, validMedicines);
+                const billRes = await axios.post(`${import.meta.env.VITE_API_URL || 'https://smartmed-2-qlz8.onrender.com'}/api/bill/generate`, validMedicines);
                 setBill(billRes.data);
             } else {
                 setBill(null);
@@ -107,10 +107,10 @@ function AIPharmacyScanner() {
         setAlternatives({ name: med.name, list: [] });
         try {
             // Find the product ID first by searching by name
-            const searchRes = await axios.get(`http://localhost:8080/api/products/search?query=${encodeURIComponent(med.name)}`);
+            const searchRes = await axios.get(`https://smartmed-2-qlz8.onrender.com/api/products/search?query=${encodeURIComponent(med.name)}`);
             if (searchRes.data && searchRes.data.length > 0) {
                 const productId = searchRes.data[0].id;
-                const altRes = await axios.get(`http://localhost:8080/api/products/alternatives/${productId}`);
+                const altRes = await axios.get(`https://smartmed-2-qlz8.onrender.com/api/products/alternatives/${productId}`);
                 setAlternatives({ name: med.name, list: altRes.data.slice(0, 5) }); // Show max 5 alternatives
             } else {
                 setAlternatives({ name: med.name, list: [] });
@@ -125,7 +125,7 @@ function AIPharmacyScanner() {
     const fetchSummary = async (medNames) => {
         setSummarizeLoading(true);
         try {
-            const res = await axios.post('http://localhost:8080/api/prescription/generate-summary', medNames);
+            const res = await axios.post('https://smartmed-2-qlz8.onrender.com/api/prescription/generate-summary', medNames);
             setAiSummary(res.data);
         } catch (err) {
             console.error("Summary error:", err);
