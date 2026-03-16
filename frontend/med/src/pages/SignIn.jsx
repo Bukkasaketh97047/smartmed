@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 
 const GOOGLE_AUTH_URL = import.meta.env.PROD 
-  ? 'https://smartmed-2-qlz8.onrender.com/oauth2/authorization/google'
+  ? 'https://smartmed-backend.onrender.com/oauth2/authorization/google'
   : 'http://localhost:8080/oauth2/authorization/google';
 
 function SignIn() {
