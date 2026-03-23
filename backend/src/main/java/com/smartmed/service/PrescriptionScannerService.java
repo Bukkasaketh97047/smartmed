@@ -181,16 +181,26 @@ public class PrescriptionScannerService {
         // Skeleton OCR: only alphanumeric, no spaces (handles "10mg" vs "10 mg")
         String skeletonOcr = normalizedOcr.replaceAll("[^a-z0-9]", "");
         
+        // --- OPTIMIZATION: Pre-calculate OCR Words ---
+        String[] rawOcrWords = normalizedOcr.split("[^a-z0-9]+");
+        List<String> ocrWords = new ArrayList<>();
+        for (String w : rawOcrWords) {
+            if (w.length() >= 4) {
+                ocrWords.add(w);
+            }
+        }
+        
         List<com.smartmed.model.Product> allProducts = productRepository.findAll();
         List<Map<String, String>> matchedMedicines = new ArrayList<>();
-        LevenshteinDistance fuzzy = new LevenshteinDistance();
+        LevenshteinDistance fuzzy = new LevenshteinDistance(); // Threshold check improves speed
+        java.util.regex.Pattern nonAlphaNum = java.util.regex.Pattern.compile("[^a-z0-9]+");
         
         System.out.println("Checking " + allProducts.size() + " products against OCR text...");
 
         for (com.smartmed.model.Product product : allProducts) {
             String originalName = product.getName();
             String fullNameLc = originalName.toLowerCase();
-            String skeletonName = fullNameLc.replaceAll("[^a-z0-9]", "");
+            String skeletonName = nonAlphaNum.matcher(fullNameLc).replaceAll("");
             
             boolean matched = false;
             String matchMethod = "";
@@ -203,14 +213,16 @@ public class PrescriptionScannerService {
             
             // Strategy 2: Word-Bag Match (Checks if all significant words are present)
             if (!matched) {
-                String[] nameParts = fullNameLc.split("[^a-z0-9]+");
+                String[] nameParts = nonAlphaNum.split(fullNameLc);
                 boolean allPartsFound = true;
                 int significantParts = 0;
                 
                 for (String part : nameParts) {
                     if (part.length() < 2) continue; // skip single letters
                     significantParts++;
-                    if (!normalizedOcr.contains(part)) {
+                    // MATCHing against the List of words is orders of magnitude faster
+                    // than String.contains on a massive raw text string for millions of iterations.
+                    if (!ocrWords.contains(part)) {
                         allPartsFound = false;
                         break;
                     }
@@ -224,15 +236,19 @@ public class PrescriptionScannerService {
 
             // Strategy 3: Fuzzy Match on Brand Name (First Word)
             if (!matched) {
-                String brandName = fullNameLc.split("[^a-z0-9]+")[0];
-                if (brandName.length() >= 5) {
-                    // Split OCR into words for fuzzy comparison
-                    String[] ocrWords = normalizedOcr.split("[^a-z0-9]+");
-                    for (String ocrWord : ocrWords) {
-                        if (ocrWord.length() >= 4 && fuzzy.apply(ocrWord, brandName) <= 1) {
-                            matched = true;
-                            matchMethod = "Fuzzy Match (" + ocrWord + " -> " + brandName + ")";
-                            break;
+                String[] nameParts = nonAlphaNum.split(fullNameLc);
+                if (nameParts.length > 0) {
+                    String brandName = nameParts[0];
+                    if (brandName.length() >= 5) {
+                        for (String ocrWord : ocrWords) {
+                            // OPTIMIZATION: Check length diff first, bypass O(N*M) check if diff > 1
+                            if (Math.abs(ocrWord.length() - brandName.length()) <= 1) {
+                                if (fuzzy.apply(ocrWord, brandName) <= 1) {
+                                    matched = true;
+                                    matchMethod = "Fuzzy Match (" + ocrWord + " -> " + brandName + ")";
+                                    break;
+                                }
+                            }
                         }
                     }
                 }

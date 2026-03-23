@@ -178,6 +178,7 @@ public class GeminiService {
                     })
                     .bodyToMono(Map.class)
                     .map(response -> parseResponse(response))
+                    .timeout(java.time.Duration.ofSeconds(15))
                     .block();
         } catch (Exception e) {
             String msg = e.getMessage() != null ? e.getMessage() : "";
