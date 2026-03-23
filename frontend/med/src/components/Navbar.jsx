@@ -66,6 +66,7 @@ function Navbar() {
             <div className="nav-links">
               <Link to="/dashboard" className={`nav-link ${location.pathname === '/dashboard' ? 'active' : ''}`}>Dashboard</Link>
               <Link to="/products" className={`nav-link ${location.pathname === '/products' ? 'active' : ''}`}>Store</Link>
+              <Link to="/finder" className={`nav-link ${location.pathname === '/finder' ? 'active' : ''}`}>📍 Map</Link>
               <Link to="/compare" className={`nav-link ${location.pathname === '/compare' ? 'active' : ''}`}>Compare</Link>
               <Link to="/symptom-checker" className={`nav-link ${location.pathname === '/symptom-checker' ? 'active' : ''}`}>Diagnoser</Link>
               <Link to="/disease-risk" className={`nav-link ${location.pathname === '/disease-risk' ? 'active' : ''}`}>Risk Profile</Link>
