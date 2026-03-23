@@ -108,7 +108,7 @@ public class GeminiService {
 
     private String callGemini(String prompt, String base64Image, String mimeType) {
         // Use gemini-1.5-flash as the primary model (widely available and best for handwriting)
-        String result = callGeminiWithRetry(prompt, base64Image, mimeType, "v1", "gemini-1.5-flash", 0);
+        String result = callGeminiWithRetry(prompt, base64Image, mimeType, "v1beta", "gemini-1.5-flash", 0);
 
         // Fallback to gemini-2.0-flash if 1.5-flash is unavailable (though 1.5 is more stable)
         if (result.equals("ERROR_RATE_LIMIT") || result.equals("ERROR_QUOTA_EXCEEDED")
