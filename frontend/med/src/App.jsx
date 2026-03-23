@@ -1,31 +1,35 @@
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
-import Products from "./pages/Products";
-import ProductDetails from "./pages/ProductDetails";
-import Cart from "./pages/Cart";
-import Orders from "./pages/Orders";
-import SymptomChecker from "./pages/SymptomChecker";
-import HealthCompanion from "./pages/HealthCompanion";
-import PrescriptionUpload from "./pages/PrescriptionUpload";
-import Dashboard from "./pages/Dashboard";
-import MedicineReminders from "./pages/MedicineReminders";
-import AugustCompanion from "./pages/AugustCompanion";
-import MedicalRecords from "./pages/MedicalRecords";
-import AdminDashboard from "./pages/AdminDashboard";
-import OAuth2RedirectHandler from "./pages/OAuth2RedirectHandler";
-import DrugInteraction from "./pages/DrugInteraction";
-import EmergencyMode from "./pages/EmergencyMode";
-import PharmacyFinder from "./pages/PharmacyFinder";
-import RiskAssessment from "./pages/RiskAssessment";
-import AdherenceAnalytics from "./pages/AdherenceAnalytics";
-import PriceCompare from "./pages/PriceCompare";
-import Subscriptions from "./pages/Subscriptions";
-import Tracking from "./pages/Tracking";
-import Wallet from "./pages/Wallet";
-import Notifications from "./pages/Notifications";
-import AIPharmacyScanner from "./pages/AIPharmacyScanner";
+
+// Lazy-load page components
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Products = lazy(() => import("./pages/Products"));
+const ProductDetails = lazy(() => import("./pages/ProductDetails"));
+const Cart = lazy(() => import("./pages/Cart"));
+const Orders = lazy(() => import("./pages/Orders"));
+const SymptomChecker = lazy(() => import("./pages/SymptomChecker"));
+const AugustCompanion = lazy(() => import("./pages/AugustCompanion"));
+const MedicineReminders = lazy(() => import("./pages/MedicineReminders"));
+const MedicalRecords = lazy(() => import("./pages/MedicalRecords"));
+const DrugInteraction = lazy(() => import("./pages/DrugInteraction"));
+const EmergencyMode = lazy(() => import("./pages/EmergencyMode"));
+const PharmacyFinder = lazy(() => import("./pages/PharmacyFinder"));
+const RiskAssessment = lazy(() => import("./pages/RiskAssessment"));
+const AdherenceAnalytics = lazy(() => import("./pages/AdherenceAnalytics"));
+const PrescriptionUpload = lazy(() => import("./pages/PrescriptionUpload"));
+const PriceCompare = lazy(() => import("./pages/PriceCompare"));
+const Subscriptions = lazy(() => import("./pages/Subscriptions"));
+const Tracking = lazy(() => import("./pages/Tracking"));
+const Wallet = lazy(() => import("./pages/Wallet"));
+const Notifications = lazy(() => import("./pages/Notifications"));
+const AIPharmacyScanner = lazy(() => import("./pages/AIPharmacyScanner"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const OAuth2RedirectHandler = lazy(() => import("./pages/OAuth2RedirectHandler"));
+const HealthCompanion = lazy(() => import("./pages/HealthCompanion"));
+
 
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
@@ -52,215 +56,217 @@ function App() {
           <BrowserRouter>
             <Navbar />
             <RouteLogger />
-            <Routes>
-              {/* Social Login Redirect Handler (Must be high priority) */}
-              <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
+            <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading SmartMed...</div>}>
+              <Routes>
+                {/* Social Login Redirect Handler (Must be high priority) */}
+                <Route path="/oauth2/redirect" element={<OAuth2RedirectHandler />} />
 
-              <Route path="/" element={<SignIn />} />
-              <Route path="/signin" element={<SignIn />} />
-              <Route path="/signup" element={<SignUp />} />
+                <Route path="/" element={<SignIn />} />
+                <Route path="/signin" element={<SignIn />} />
+                <Route path="/signup" element={<SignUp />} />
 
-              <Route
-                path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/dashboard"
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/products"
-                element={
-                  <ProtectedRoute>
-                    <Products />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/products"
+                  element={
+                    <ProtectedRoute>
+                      <Products />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/product/:id"
-                element={
-                  <ProtectedRoute>
-                    <ProductDetails />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/product/:id"
+                  element={
+                    <ProtectedRoute>
+                      <ProductDetails />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/cart"
-                element={
-                  <ProtectedRoute>
-                    <Cart />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/cart"
+                  element={
+                    <ProtectedRoute>
+                      <Cart />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/orders"
-                element={
-                  <ProtectedRoute>
-                    <Orders />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/orders"
+                  element={
+                    <ProtectedRoute>
+                      <Orders />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/symptom-checker"
-                element={
-                  <ProtectedRoute>
-                    <SymptomChecker />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/symptom-checker"
+                  element={
+                    <ProtectedRoute>
+                      <SymptomChecker />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/august"
-                element={
-                  <ProtectedRoute>
-                    <AugustCompanion />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/august"
+                  element={
+                    <ProtectedRoute>
+                      <AugustCompanion />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/reminders"
-                element={
-                  <ProtectedRoute>
-                    <MedicineReminders />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/reminders"
+                  element={
+                    <ProtectedRoute>
+                      <MedicineReminders />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/records"
-                element={
-                  <ProtectedRoute>
-                    <MedicalRecords />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/records"
+                  element={
+                    <ProtectedRoute>
+                      <MedicalRecords />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/interaction-checker"
-                element={
-                  <ProtectedRoute>
-                    <DrugInteraction />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/interaction-checker"
+                  element={
+                    <ProtectedRoute>
+                      <DrugInteraction />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/emergency"
-                element={
-                  <ProtectedRoute>
-                    <EmergencyMode />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/emergency"
+                  element={
+                    <ProtectedRoute>
+                      <EmergencyMode />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/finder"
-                element={
-                  <ProtectedRoute>
-                    <PharmacyFinder />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/finder"
+                  element={
+                    <ProtectedRoute>
+                      <PharmacyFinder />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/disease-risk"
-                element={
-                  <ProtectedRoute>
-                    <RiskAssessment />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/disease-risk"
+                  element={
+                    <ProtectedRoute>
+                      <RiskAssessment />
+                    </ProtectedRoute>
+                  }
+                />
 
 
-              <Route
-                path="/adherence"
-                element={
-                  <ProtectedRoute>
-                    <AdherenceAnalytics />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/adherence"
+                  element={
+                    <ProtectedRoute>
+                      <AdherenceAnalytics />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/upload-prescription"
-                element={
-                  <ProtectedRoute>
-                    <PrescriptionUpload />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/upload-prescription"
+                  element={
+                    <ProtectedRoute>
+                      <PrescriptionUpload />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/compare"
-                element={
-                  <ProtectedRoute>
-                    <PriceCompare />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/compare"
+                  element={
+                    <ProtectedRoute>
+                      <PriceCompare />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/subscriptions"
-                element={
-                  <ProtectedRoute>
-                    <Subscriptions />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/subscriptions"
+                  element={
+                    <ProtectedRoute>
+                      <Subscriptions />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/tracking"
-                element={
-                  <ProtectedRoute>
-                    <Tracking />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/tracking"
+                  element={
+                    <ProtectedRoute>
+                      <Tracking />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/wallet"
-                element={
-                  <ProtectedRoute>
-                    <Wallet />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/wallet"
+                  element={
+                    <ProtectedRoute>
+                      <Wallet />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/notifications"
-                element={
-                  <ProtectedRoute>
-                    <Notifications />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/notifications"
+                  element={
+                    <ProtectedRoute>
+                      <Notifications />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/ai-scanner"
-                element={
-                  <ProtectedRoute>
-                    <AIPharmacyScanner />
-                  </ProtectedRoute>
-                }
-              />
+                <Route
+                  path="/ai-scanner"
+                  element={
+                    <ProtectedRoute>
+                      <AIPharmacyScanner />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route
-                path="/admin"
-                element={
-                  <ProtectedRoute adminOnly={true}>
-                    <AdminDashboard />
-                  </ProtectedRoute>
-                }
-              />
-              {/* Catch-all for debugging or 404 */}
-              <Route path="*" element={<div className="p-10 text-center"><h2>404 - Path: {window.location.pathname}</h2></div>} />
-            </Routes>
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute adminOnly={true}>
+                      <AdminDashboard />
+                    </ProtectedRoute>
+                  }
+                />
+                {/* Catch-all for debugging or 404 */}
+                <Route path="*" element={<div className="p-10 text-center"><h2>404 - Path: {window.location.pathname}</h2></div>} />
+              </Routes>
+            </Suspense>
             {/* August AI Integration Floating Button */}
             <a
               href="https://wa.me/918738030604"
