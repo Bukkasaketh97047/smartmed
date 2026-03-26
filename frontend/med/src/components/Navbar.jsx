@@ -9,6 +9,11 @@ function Navbar() {
   const { cartCount } = useCart();
   const { user, isLoggedIn, logout } = useAuth();
   const [searchQuery, setSearchQuery] = React.useState("");
+  
+  const authPaths = ['/signin', '/signup', '/'];
+  if (authPaths.includes(location.pathname)) {
+    return null;
+  }
 
   const handleSearch = (e) => {
     e.preventDefault();
