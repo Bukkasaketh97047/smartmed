@@ -95,7 +95,13 @@ function AIPharmacyScanner() {
                 fetchSummary(medNames);
             }
         } catch (error) {
-            console.error("Full Scan Error:", error);
+            console.error("Full Scan Error Details:", error);
+            if (error.response) {
+                console.error("Data:", error.response.data);
+                console.error("Status:", error.response.status);
+            } else if (error.request) {
+                console.error("Request:", error.request);
+            }
             showToast(error.message || "Error processing prescription. Please try a clearer image.");
             setStep(1);
         } finally {
