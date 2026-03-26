@@ -10,8 +10,10 @@ function Navbar() {
   const { user, isLoggedIn, logout } = useAuth();
   const [searchQuery, setSearchQuery] = React.useState("");
   
-  const authPaths = ['/signin', '/signup', '/'];
-  if (authPaths.includes(location.pathname)) {
+  const isAuthPage = ['/signin', '/signup', '/'].includes(location.pathname) || 
+                     location.pathname.startsWith('/oauth2');
+  
+  if (isAuthPage) {
     return null;
   }
 
