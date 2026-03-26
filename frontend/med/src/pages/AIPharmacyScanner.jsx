@@ -4,6 +4,7 @@ import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import api from '../services/api';
 
 function AIPharmacyScanner() {
     const { user } = useAuth();
@@ -44,12 +45,12 @@ function AIPharmacyScanner() {
             formData.append('file', file);
             formData.append('username', user.username);
 
-            const uploadRes = await axios.post('https://smartmed-backend.onrender.com/api/prescription/upload', formData, {
+            const uploadRes = await api.post('/prescription/upload', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
             // Step 2: Scan
-            const scanRes = await axios.post(`https://smartmed-backend.onrender.com/api/prescription/scan/${uploadRes.data.id}`);
+            const scanRes = await api.post(`/prescription/scan/${uploadRes.data.id}`);
             console.log("Raw Scan Response:", scanRes.data);
 
             let parsedData;
@@ -107,10 +108,10 @@ function AIPharmacyScanner() {
         setAlternatives({ name: med.name, list: [] });
         try {
             // Find the product ID first by searching by name
-            const searchRes = await axios.get(`https://smartmed-backend.onrender.com/api/products/search?query=${encodeURIComponent(med.name)}`);
+            const searchRes = await api.get(`/products/search?query=${encodeURIComponent(med.name)}`);
             if (searchRes.data && searchRes.data.length > 0) {
                 const productId = searchRes.data[0].id;
-                const altRes = await axios.get(`https://smartmed-backend.onrender.com/api/products/alternatives/${productId}`);
+                const altRes = await api.get(`/products/alternatives/${productId}`);
                 setAlternatives({ name: med.name, list: altRes.data.slice(0, 5) }); // Show max 5 alternatives
             } else {
                 setAlternatives({ name: med.name, list: [] });
@@ -125,7 +126,7 @@ function AIPharmacyScanner() {
     const fetchSummary = async (medNames) => {
         setSummarizeLoading(true);
         try {
-            const res = await axios.post('https://smartmed-backend.onrender.com/api/prescription/generate-summary', medNames);
+            const res = await api.post('/prescription/generate-summary', medNames);
             setAiSummary(res.data);
         } catch (err) {
             console.error("Summary error:", err);
