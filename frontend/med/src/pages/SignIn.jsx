@@ -3,7 +3,7 @@ import { loginUser } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 
-const GOOGLE_AUTH_URL = (import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080') + '/oauth2/authorization/google';
+const GOOGLE_AUTH_URL = (import.meta.env.VITE_BACKEND_URL || 'https://smartmed-2-qlz8.onrender.com') + '/oauth2/authorization/google';
 
 function SignIn() {
   const [username, setUsername] = useState('');
