@@ -13,9 +13,10 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 
-# Install Tesseract OCR and its English language data
+# Install Tesseract OCR and OpenCV system dependencies
 RUN apt-get update && \
-    apt-get install -y tesseract-ocr tesseract-ocr-eng libtesseract-dev && \
+    apt-get install -y tesseract-ocr tesseract-ocr-eng libtesseract-dev \
+    libgl1-mesa-glx libglib2.0-0 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
