@@ -15,8 +15,9 @@ WORKDIR /app
 
 # Install Tesseract OCR and OpenCV system dependencies
 RUN apt-get update && \
-    apt-get install -y tesseract-ocr tesseract-ocr-eng libtesseract-dev \
-    libgl1-mesa-glx libglib2.0-0 && \
+    apt-get install -y --no-install-recommends \
+    tesseract-ocr tesseract-ocr-eng libtesseract-dev \
+    libgl1-mesa-glx libglib2.0-0 libsm6 libxext6 libxrender-dev && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
